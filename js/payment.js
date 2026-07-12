@@ -5,7 +5,7 @@
 
 // ⚠️ APNA WHATSAPP NUMBER DAALO (no + sign, no spaces, country code ke saath)
 // Example India: 919876543210
-const WHATSAPP_NUMBER = '91XXXXXXXXXX';
+const WHATSAPP_NUMBER = '918306819219';
 
 // Plan details
 const PLAN_DETAILS = {
