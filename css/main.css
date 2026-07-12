@@ -99,7 +99,7 @@ ul { list-style: none; }
 }
 
 /* ============================================
-   TICKER BAR
+   TICKER BAR - WITH EDGE MASK (Live button overlap fix)
    ============================================ */
 .ticker-wrap {
     position: relative;
@@ -110,6 +110,8 @@ ul { list-style: none; }
     height: 40px;
     display: flex;
     align-items: center;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 70px, #000 calc(100% - 80px), transparent 100%);
+    mask-image: linear-gradient(90deg, transparent 0, #000 70px, #000 calc(100% - 80px), transparent 100%);
 }
 
 .ticker-label {
@@ -123,15 +125,20 @@ ul { list-style: none; }
     font-weight: 900;
     font-size: 0.75rem;
     letter-spacing: 2px;
+    z-index: 3;
+    position: relative;
+    box-shadow: 4px 0 12px rgba(0, 0, 0, 0.6);
 }
 
 .ticker {
     display: flex;
     gap: 30px;
-    padding-left: 20px;
+    padding-left: 16px;
     white-space: nowrap;
     animation: tickerScroll 60s linear infinite;
     will-change: transform;
+    -webkit-mask-image: linear-gradient(90deg, #000 0, #000 calc(100% - 60px), transparent 100%);
+    mask-image: linear-gradient(90deg, #000 0, #000 calc(100% - 60px), transparent 100%);
 }
 
 .ticker-item {
