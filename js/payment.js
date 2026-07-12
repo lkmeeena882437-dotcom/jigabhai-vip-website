@@ -16,7 +16,7 @@ const PLAN_DETAILS = {
     },
     pro: {
         name: 'Pro Hunter',
-        duration: '30 days',
+        duration: '25 days',
         amount: 15000
     },
     'pro-discount': {
