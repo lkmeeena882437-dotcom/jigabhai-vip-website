@@ -1,89 +1,80 @@
-var PAYMENT_CONFIG = {
-    RAZORPAY_KEY_ID: 'rzp_test_XXXXXXXXXXXXXXX',
-    TELEGRAM_LINKS: {
-        basic: 'https://t.me/+YOUR_BASIC_VIP_GROUP_LINK',
-        pro: 'https://t.me/+YOUR_PRO_VIP_GROUP_LINK',
-        premium: 'https://t.me/+YOUR_PREMIUM_VIP_GROUP_LINK',
-        ultimate: 'https://t.me/+YOUR_ULTIMATE_VIP_GROUP_LINK',
-        'pro-discount': 'https://t.me/+YOUR_PRO_VIP_GROUP_LINK'
+/* ============================================
+   WHATSAPP PAYMENT REDIRECT
+   (Razorpay ki jagah seedha WhatsApp pe redirect)
+   ============================================ */
+
+// ⚠️ APNA WHATSAPP NUMBER DAALO (no + sign, no spaces, country code ke saath)
+// Example India: 919876543210
+const WHATSAPP_NUMBER = '91XXXXXXXXXX';
+
+// Plan details
+const PLAN_DETAILS = {
+    basic: {
+        name: 'Basic Strike',
+        duration: '15 days',
+        amount: 8000
+    },
+    pro: {
+        name: 'Pro Hunter',
+        duration: '30 days',
+        amount: 15000
+    },
+    'pro-discount': {
+        name: 'Pro Hunter (30% Discount)',
+        duration: '30 days',
+        amount: 10500
+    },
+    premium: {
+        name: 'Elite Sniper',
+        duration: '30 days',
+        amount: 28000
+    },
+    ultimate: {
+        name: 'Inner Circle',
+        duration: '30 days',
+        amount: 50000
     }
 };
 
+// Function: User clicks ACTIVATE → Redirect to WhatsApp with pre-filled message
 function initiatePayment(planId, planName, planAmount) {
-    if (typeof Razorpay === 'undefined') {
-        loadRazorpay(function() {
-            if (typeof Razorpay !== 'undefined') {
-                openCheckout(planId, planName, planAmount);
-            } else {
-                showNotification('Payment gateway not available. Contact us on WhatsApp.', 'error');
-            }
-        });
-    } else {
-        openCheckout(planId, planName, planAmount);
-    }
-}
+    // Get plan details
+    var plan = PLAN_DETAILS[planId] || {
+        name: planName || 'Unknown Plan',
+        duration: '30 days',
+        amount: planAmount ? Math.floor(planAmount / 100) : 0
+    };
 
-function openCheckout(planId, planName, planAmount) {
+    // Build WhatsApp message
+    var message = '*VIP Plan Inquiry* 🎯\n\n';
+    message += '*Plan:* ' + plan.name + '\n';
+    message += '*Duration:* ' + plan.duration + '\n';
+    message += '*Amount:* ₹' + plan.amount.toLocaleString('en-IN') + '\n\n';
+    message += 'Hi Jiga Bhai, I want to subscribe to the *' + plan.name + '* plan. Please share payment details and Telegram group link. 🙏';
+
+    // Build WhatsApp URL
+    var whatsappURL = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(message);
+
+    // Show brief loading state
     var btn = document.querySelector('[data-plan-id="' + planId + '"]');
-    var originalText = btn ? btn.innerHTML : '';
-    if (btn) { btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...'; btn.disabled = true; }
-
-    try {
-        var options = {
-            key: PAYMENT_CONFIG.RAZORPAY_KEY_ID,
-            amount: planAmount,
-            currency: 'INR',
-            name: 'Jiga Bhai | Gujrati Trader',
-            description: planName + ' - 30 Days VIP',
-            image: 'assets/images/founder-formal.jpg',
-            prefill: { name: '', email: '', contact: '' },
-            notes: { plan_id: planId, plan_name: planName },
-            theme: { color: '#ffc83d', backdrop_color: 'rgba(5, 8, 16, 0.9)' },
-            modal: {
-                ondismiss: function() {
-                    if (btn) { btn.innerHTML = originalText; btn.disabled = false; }
-                    setTimeout(function() {
-                        window.openModal('recoveryModal');
-                        if (typeof window.startRecoveryTimer === 'function') window.startRecoveryTimer();
-                    }, 500);
-                },
-                escape: true
-            },
-            handler: function(response) {
-                if (btn) { btn.innerHTML = originalText; btn.disabled = false; }
-                window.openModal('successModal');
-                var link = PAYMENT_CONFIG.TELEGRAM_LINKS[planId] || PAYMENT_CONFIG.TELEGRAM_LINKS.basic;
-                setTimeout(function() {
-                    window.open(link, '_blank', 'noopener,noreferrer');
-                    setTimeout(function() { window.closeModal('successModal'); }, 500);
-                }, 2500);
-            }
-        };
-
-        var rzp = new Razorpay(options);
-        rzp.on('payment.failed', function(response) {
-            if (btn) { btn.innerHTML = originalText; btn.disabled = false; }
-            showNotification('Payment failed: ' + (response.error.description || 'Please try again'), 'error');
-            setTimeout(function() { window.openModal('recoveryModal'); }, 1500);
-        });
-        rzp.open();
-    } catch (err) {
-        if (btn) { btn.innerHTML = originalText; btn.disabled = false; }
-        showNotification('Payment error. Please try again.', 'error');
+    if (btn) {
+        var originalText = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Opening WhatsApp...';
+        btn.disabled = true;
+        setTimeout(function() {
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+        }, 2000);
     }
+
+    // Open WhatsApp in new tab
+    window.open(whatsappURL, '_blank', 'noopener,noreferrer');
+
+    // Show success notification
+    showNotification('Redirecting to WhatsApp...', 'info');
 }
 
-function loadRazorpay(callback) {
-    if (typeof Razorpay !== 'undefined') { callback(); return; }
-    var s = document.createElement('script');
-    s.src = 'https://checkout.razorpay.com/v1/checkout.js';
-    s.async = true;
-    s.onload = callback;
-    s.onerror = callback;
-    document.head.appendChild(s);
-    setTimeout(callback, 5000);
-}
-
+// Notification helper (same as before)
 function showNotification(message, type) {
     type = type || 'info';
     var n = document.createElement('div');
@@ -99,8 +90,15 @@ function showNotification(message, type) {
         n.style.opacity = '0';
         n.style.transform = 'translateX(120%)';
         setTimeout(function() { n.remove(); }, 500);
-    }, 5000);
+    }, 3000);
 }
 
+// Razorpay loader stub (kept for backward compatibility)
+function loadRazorpay(callback) {
+    if (typeof callback === 'function') callback();
+    return;
+}
+
+// Expose to window
 window.initiatePayment = initiatePayment;
 window.showNotification = showNotification;
