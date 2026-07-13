@@ -26,12 +26,12 @@ const PLAN_DETAILS = {
     },
     premium: {
         name: 'Elite Sniper',
-        duration: '30 days',
+        duration: '45 days',
         amount: 28000
     },
     ultimate: {
         name: 'Inner Circle',
-        duration: '30 days',
+        duration: '60 days',
         amount: 50000
     }
 };
