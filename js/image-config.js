@@ -1,23 +1,23 @@
 /* IMAGE CONFIGURATION - JIGA BHAI TRADING */
 const IMAGE_CONFIG = {
     founderHero: {
-        url: 'assets/images/founder-lifestyle.jpg',
+        url: 'https://i.ibb.co/cS27F7Lh/711588402-17957409570166539-8584741019897070950-n.jpg',
         alt: 'Jiga Bhai - Founder'
     },
     founderAbout: {
-        url: 'assets/images/founder-formal.jpg',
+        url: 'https://i.ibb.co/yFC8BrCq/Whats-App-Image-2026-07-13-at-7-09-53-AM-1.jpg',
         alt: 'Jiga Bhai - Founder'
     },
     tradeProof1: {
-        url: 'https://i.ibb.co/PLACEHOLDER/nifty-trade.jpg',
+        url: 'https://i.ibb.co/1tNcMJ8z/Whats-App-Image-2026-07-13-at-7-52-31-AM.jpg',
         alt: 'NIFTY 50 Trade - 15 Jul 2025'
     },
     tradeProof2: {
-        url: 'https://i.ibb.co/PLACEHOLDER/banknifty-trade.jpg',
+        url: 'https://i.ibb.co/9kWKrqhg/Whats-App-Image-2026-07-13-at-7-52-30-AM-1.jpg',
         alt: 'BANKNIFTY Trade - 14 Jul 2025'
     },
     tradeProof3: {
-        url: 'https://i.ibb.co/PLACEHOLDER/tatamotors-trade.jpg',
+        url: 'https://i.ibb.co/JjGTS0HZ/Whats-App-Image-2026-07-13-at-7-52-30-AM.jpg',
         alt: 'TATAMOTORS Trade - 13 Jul 2025'
     }
 };
