@@ -1,61 +1,29 @@
-/* ============================================
-   WHATSAPP PAYMENT REDIRECT
-   (Razorpay ki jagah seedha WhatsApp pe redirect)
-   ============================================ */
+// ✅ TERA ACTUAL WHATSAPP NUMBER
+const WHATSAPP_NUMBER = '9183068192197';
 
-// ⚠️ APNA WHATSAPP NUMBER DAALO (no + sign, no spaces, country code ke saath)
-// Example India: 919876543210
-const WHATSAPP_NUMBER = '918306819219';
-
-// Plan details
 const PLAN_DETAILS = {
-    basic: {
-        name: 'Basic Strike',
-        duration: '15 days',
-        amount: 8000
-    },
-    pro: {
-        name: 'Pro Hunter',
-        duration: '25 days',
-        amount: 15000
-    },
-    'pro-discount': {
-        name: 'Pro Hunter (30% Discount)',
-        duration: '30 days',
-        amount: 10500
-    },
-    premium: {
-        name: 'Elite Sniper',
-        duration: '45 days',
-        amount: 28000
-    },
-    ultimate: {
-        name: 'Inner Circle',
-        duration: '60 days',
-        amount: 50000
-    }
+    basic: { name: 'Basic Strike', duration: '30 days', amount: 8000 },
+    pro: { name: 'Pro Hunter', duration: '30 days', amount: 15000 },
+    'pro-discount': { name: 'Pro Hunter (30% Discount)', duration: '30 days', amount: 10500 },
+    premium: { name: 'Elite Sniper', duration: '30 days', amount: 28000 },
+    ultimate: { name: 'Inner Circle', duration: '30 days', amount: 50000 }
 };
 
-// Function: User clicks ACTIVATE → Redirect to WhatsApp with pre-filled message
 function initiatePayment(planId, planName, planAmount) {
-    // Get plan details
     var plan = PLAN_DETAILS[planId] || {
         name: planName || 'Unknown Plan',
         duration: '30 days',
         amount: planAmount ? Math.floor(planAmount / 100) : 0
     };
 
-    // Build WhatsApp message
     var message = '*VIP Plan Inquiry* 🎯\n\n';
     message += '*Plan:* ' + plan.name + '\n';
     message += '*Duration:* ' + plan.duration + '\n';
     message += '*Amount:* ₹' + plan.amount.toLocaleString('en-IN') + '\n\n';
     message += 'Hi Jiga Bhai, I want to subscribe to the *' + plan.name + '* plan. Please share payment details and Telegram group link. 🙏';
 
-    // Build WhatsApp URL
     var whatsappURL = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(message);
 
-    // Show brief loading state
     var btn = document.querySelector('[data-plan-id="' + planId + '"]');
     if (btn) {
         var originalText = btn.innerHTML;
@@ -67,14 +35,10 @@ function initiatePayment(planId, planName, planAmount) {
         }, 2000);
     }
 
-    // Open WhatsApp in new tab
     window.open(whatsappURL, '_blank', 'noopener,noreferrer');
-
-    // Show success notification
     showNotification('Redirecting to WhatsApp...', 'info');
 }
 
-// Notification helper (same as before)
 function showNotification(message, type) {
     type = type || 'info';
     var n = document.createElement('div');
@@ -93,12 +57,5 @@ function showNotification(message, type) {
     }, 3000);
 }
 
-// Razorpay loader stub (kept for backward compatibility)
-function loadRazorpay(callback) {
-    if (typeof callback === 'function') callback();
-    return;
-}
-
-// Expose to window
 window.initiatePayment = initiatePayment;
 window.showNotification = showNotification;
