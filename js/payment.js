@@ -1,5 +1,5 @@
 // ✅ TERA ACTUAL WHATSAPP NUMBER
-const WHATSAPP_NUMBER = 'https://wa.me/+91-83068-19219/?text=*Hello-Jiga-Bhai*';
+const WHATSAPP_NUMBER = '918306819219';
 
 const PLAN_DETAILS = {
     basic: { name: 'Basic Strike', duration: '30 days', amount: 8000 },
