@@ -690,12 +690,18 @@
     });
 
     // Track Telegram clicks
-    document.addEventListener('click', function(e) {
-        var target = e.target.closest('a[href*="t.me"]');
-        if (target) {
-            fbq('track', 'Subscribe', {content_name: 'Telegram Join', content_category: 'Free Community'});
-        }
-    });
+    // Track Telegram clicks
+document.addEventListener('click', function(e) {
+    var target = e.target.closest('a[href*="t.me"]');
+    if (target) {
+        fbq('track', 'Subscribe', {
+            content_name: 'Telegram Join - Free Community',
+            content_category: 'Free Trading Education',
+            value: 50,
+            currency: 'INR'
+        });
+    }
+});
 
     // Track VIP plan button clicks
     document.addEventListener('click', function(e) {
