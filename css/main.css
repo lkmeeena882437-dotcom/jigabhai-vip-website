@@ -2035,3 +2035,40 @@ ul { list-style: none; }
     text-align: center;
     margin-top: 28px;
 }
+
+/* ============================================
+   MODAL CONTENT — PRIVACY POLICY FORMATTING
+   ============================================ */
+.modal-content h4 {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 900;
+    color: var(--gold);
+    margin: 18px 0 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    line-height: 1.2;
+}
+
+.modal-content h4:first-of-type {
+    margin-top: 4px;
+}
+
+.modal-content ul {
+    margin: 0 0 16px;
+    padding-left: 20px;
+    list-style: disc;
+}
+
+.modal-content ul li {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 6px;
+}
+
+.modal-content a {
+    color: var(--gold);
+    text-decoration: underline;
+    word-break: break-word;
+}
