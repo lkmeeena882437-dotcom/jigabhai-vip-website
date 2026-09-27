@@ -23,15 +23,16 @@
             candles = [];
             trendPoints = [];
             particles = [];
+            var count = W < 768 ? 36 : 70;
             var lastClose = H * 0.5;
-            var cw = (W / 70) * 1.2;
-            for (var i = 0; i < 70; i++) {
+            var cw = (W / count) * 1.2;
+            for (var i = 0; i < count; i++) {
                 var open = lastClose;
                 var change = (Math.random() - 0.48) * 30;
                 var close = open + change;
                 var high = Math.min(open, close) - Math.random() * 20;
                 var low = Math.max(open, close) + Math.random() * 20;
-                candles.push({ open: open, close: close, high: high, low: low, x: i * (W / 70) + (W / 70) / 2, w: cw * 0.7, isGreen: close < open });
+                candles.push({ open: open, close: close, high: high, low: low, x: i * (W / count) + (W / count) / 2, w: cw * 0.7, isGreen: close < open });
                 lastClose = close;
             }
             for (var j = 0; j < 50; j++) {
@@ -39,7 +40,8 @@
                 var y = H * 0.5 + Math.sin(j * 0.3) * 80 + Math.cos(j * 0.15) * 100 + (Math.random() - 0.5) * 40;
                 trendPoints.push({ x: x, y: y });
             }
-            for (var k = 0; k < 25; k++) {
+            var particleCount = W < 768 ? 12 : 25;
+            for (var k = 0; k < particleCount; k++) {
                 particles.push({ x: Math.random() * W, y: Math.random() * H, size: Math.random() * 2 + 1, sx: (Math.random() - 0.5) * 0.3, sy: -Math.random() * 0.5 - 0.1, op: Math.random() * 0.5 + 0.2 });
             }
         }
@@ -115,7 +117,9 @@
             }
         }
 
+        var running = true;
         function render() {
+            if (!running) return;
             ctx.clearRect(0, 0, W, H);
             drawGrid();
             drawCandles();
@@ -123,6 +127,15 @@
             drawParticles();
             requestAnimationFrame(render);
         }
+
+        document.addEventListener('visibilitychange', function () {
+            if (document.hidden) {
+                running = false;
+            } else if (!running) {
+                running = true;
+                render();
+            }
+        });
 
         window.addEventListener('resize', resize);
         resize();
@@ -134,8 +147,10 @@
     var navMenu = document.getElementById('navMenu');
     if (hamburger && navMenu) {
         hamburger.addEventListener('click', function() {
-            this.classList.toggle('active');
-            navMenu.classList.toggle('active');
+            var open = !this.classList.contains('active');
+            this.classList.toggle('active', open);
+            navMenu.classList.toggle('active', open);
+            this.setAttribute('aria-expanded', open ? 'true' : 'false');
         });
         var links = document.querySelectorAll('.nav-link');
         for (var i = 0; i < links.length; i++) {
@@ -241,12 +256,16 @@
         window._recoveryInterval = setInterval(function() {
             if (time <= 0) {
                 clearInterval(window._recoveryInterval);
-                timerEl.innerHTML = '<b>OFFER EXPIRED</b>';
+                var lang = document.documentElement.getAttribute('data-lang') || 'en';
+                var expired = (window.JB_I18N && window.JB_I18N.t('modal.expired', lang)) || 'OFFER ENDED';
+                timerEl.innerHTML = '<b>' + expired + '</b>';
                 return;
             }
             var m = Math.floor(time / 60);
             var s = time % 60;
-            timerEl.innerHTML = 'Offer expires in: <b>' + (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s + '</b>';
+            var lang = document.documentElement.getAttribute('data-lang') || 'en';
+            var prefix = (window.JB_I18N && window.JB_I18N.t('modal.expires', lang)) || 'Offer ends in:';
+            timerEl.innerHTML = prefix + ' <b>' + (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s + '</b>';
             time--;
         }, 1000);
     };
@@ -284,5 +303,27 @@
                 console.error('Payment module not loaded');
             }
         });
+    }
+
+    // ===== SCROLL SPY =====
+    var spyLinks = document.querySelectorAll('.nav-link[href^="#"]');
+    var spySections = [];
+    for (var s = 0; s < spyLinks.length; s++) {
+        var spyTarget = document.querySelector(spyLinks[s].getAttribute('href'));
+        if (spyTarget) spySections.push({ link: spyLinks[s], section: spyTarget });
+    }
+    function updateSpy() {
+        var mark = window.pageYOffset + 120;
+        var current = spySections[0];
+        for (var i = 0; i < spySections.length; i++) {
+            if (spySections[i].section.offsetTop <= mark) current = spySections[i];
+        }
+        for (var j = 0; j < spySections.length; j++) {
+            spySections[j].link.classList.toggle('is-active', current && spySections[j] === current);
+        }
+    }
+    if (spySections.length) {
+        window.addEventListener('scroll', updateSpy, { passive: true });
+        updateSpy();
     }
 })();
