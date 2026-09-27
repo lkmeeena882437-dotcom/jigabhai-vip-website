@@ -1,11 +1,11 @@
 /* IMAGE CONFIGURATION - JIGA BHAI TRADING */
 const IMAGE_CONFIG = {
     founderHero: {
-        url: 'https://i.ibb.co/cS27F7Lh/711588402-17957409570166539-8584741019897070950-n.jpg',
+        url: 'https://i.ibb.co/m5f9RZk7/Whats-App-Image-2026-09-27-at-6-43-52-AM.jpg',
         alt: 'Jiga Bhai - Founder'
     },
     founderAbout: {
-        url: 'https://i.ibb.co/yFC8BrCq/Whats-App-Image-2026-07-13-at-7-09-53-AM-1.jpg',
+        url: 'https://i.ibb.co/C5QGDmXR/Whats-App-Image-2026-09-27-at-6-43-51-AM.jpg',
         alt: 'Jiga Bhai - Founder'
     },
     tradeProof1: {
