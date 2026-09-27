@@ -8,12 +8,12 @@ var IMAGE_CONFIG = {
     // Home page badi photo — index.html mein bhi line ~215
     founderHero: {
         url: 'https://i.ibb.co/m5f9RZk7/Whats-App-Image-2026-09-27-at-6-43-52-AM.jpg',
-        alt: 'Jiga Bhai'
+        alt: 'Jiga Bhai - Founder'
     },
     // About / founder photo — index.html mein bhi line ~294
     founderAbout: {
         url: 'https://i.ibb.co/C5QGDmXR/Whats-App-Image-2026-09-27-at-6-43-51-AM.jpg',
-        alt: 'Jiga Bhai, founder'
+        alt: 'Jiga Bhai - Founder'
     },
     // Neeche 3 trade screenshots — index.html ~371, ~383, ~395
     tradeProof1: {
