@@ -1,5 +1,5 @@
 // WhatsApp handoff for plan inquiries. No card data is collected on this site.
-var WHATSAPP_NUMBER = '918306819219';
+var WHATSAPP_NUMBER = '917375990149';
 
 var PLAN_DETAILS = {
     basic: { name: 'Basic Strike', duration: '30 days', amount: 8000 },
