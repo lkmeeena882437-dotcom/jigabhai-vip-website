@@ -1,5 +1,5 @@
-// WhatsApp handoff for plan inquiries. No card data is collected on this site.
-var WHATSAPP_NUMBER = '917375990149';
+// Telegram handoff for plan inquiries. No card data is collected on this site.
+var TELEGRAM_SUPPORT = 'Jiga_Bhai_Vip_Support';
 
 var PLAN_DETAILS = {
     basic: { name: 'Basic Strike', duration: '30 days', amount: 8000 },
@@ -29,7 +29,7 @@ function planMessage(plan, lang) {
         '*Plan:* ' + plan.name + '\n' +
         '*Duration:* ' + plan.duration + '\n' +
         '*Amount:* ' + amount + '\n\n' +
-        'Hi Jiga Bhai, I want the *' + plan.name + '* plan. Please share payment details and the Telegram group link.';
+        'Hi Jiga Bhai, I want the *' + plan.name + '* plan. Please share payment details and the VIP group link.';
 }
 
 function initiatePayment(planId, planName, planAmount) {
@@ -40,12 +40,12 @@ function initiatePayment(planId, planName, planAmount) {
     };
     var lang = document.documentElement.getAttribute('data-lang') || 'en';
     var message = planMessage(plan, lang);
-    var whatsappURL = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(message);
+    var telegramURL = 'https://t.me/' + TELEGRAM_SUPPORT;
 
     var btn = document.querySelector('[data-plan-id="' + planId + '"]');
     if (btn) {
         var originalText = btn.innerHTML;
-        var opening = (window.JB_I18N && window.JB_I18N.t('wa.opening', lang)) || 'Opening WhatsApp...';
+        var opening = (window.JB_I18N && window.JB_I18N.t('wa.opening', lang)) || 'Opening Telegram...';
         btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ' + opening;
         btn.disabled = true;
         setTimeout(function () {
@@ -54,8 +54,8 @@ function initiatePayment(planId, planName, planAmount) {
         }, 2000);
     }
 
-    window.open(whatsappURL, '_blank', 'noopener,noreferrer');
-    var notice = (window.JB_I18N && window.JB_I18N.t('wa.notice', lang)) || 'Opening WhatsApp...';
+    window.open(telegramURL, '_blank', 'noopener,noreferrer');
+    var notice = (window.JB_I18N && window.JB_I18N.t('wa.notice', lang)) || 'Opening Telegram...';
     showNotification(notice, 'info');
 }
 
